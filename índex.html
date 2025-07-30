@@ -13,6 +13,10 @@
       padding: 50px;  
     }  
 
+    .envelope-container {
+      transition: transform 1s ease;
+    }
+
     .envelope {  
       width: 150px;  
       height: 100px;  
@@ -60,9 +64,9 @@
       border-radius: 20px;  
       padding: 30px;  
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);  
-      display: inline-block;  
       max-width: 400px;  
       animation: fadeIn 1.5s ease-in;  
+      margin: 0 auto;  
     }  
 
     h1 {  
@@ -73,6 +77,17 @@
       font-size: 40px;  
     }  
 
+    .back-btn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #f06292;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
     @keyframes fadeIn {  
       0% { opacity: 0; transform: translateY(20px); }  
       100% { opacity: 1; transform: translateY(0); }  
@@ -81,13 +96,20 @@
 </head>  
 <body>  
 
-  <!-- Musik -->  
+  <!-- Musik -->
   <audio id="myAudio" loop>
     <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Scott_Holmes/Happy_Music/Scott_Holmes_-_Happy_Music.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- Efek suara buka kertas -->
+  <audio id="paperSound">
+    <source src="paper-open.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- Amplop -->  
-  <div class="envelope" onclick="openCard(event)"></div>  
+  <div class="envelope-container" id="envelopeContainer">
+    <div class="envelope" onclick="openCard(event)"></div>
+  </div>
 
   <!-- Kartu Ucapan -->  
   <div class="card" id="greetingCard">  
@@ -97,15 +119,26 @@
     <p>Dari Ammar yang lagi belajar ngoding demi kamu 🧑‍💻💖</p>  
     <p>Semoga semua impianmu tercapai, dan jangan lupa senyum terus yaa 🌸🌈</p>  
     <div class="emoji">💌🌍🪄</div>  
+    <button class="back-btn" onclick="resetCard()">🔁 Balik ke amplop</button>
   </div>  
 
   <script>  
     function openCard(event) {  
-      document.querySelector('.envelope').style.display = 'none';  
-      document.getElementById('greetingCard').style.display = 'inline-block';  
+      document.getElementById('envelopeContainer').style.transform = 'rotateY(90deg)';  
+      setTimeout(() => {
+        document.getElementById('envelopeContainer').style.display = 'none';  
+        document.getElementById('greetingCard').style.display = 'inline-block';  
+      }, 500);  
 
-      const audio = document.getElementById('myAudio');  
-      audio.play();  
+      // Play musik dan suara buka kertas
+      document.getElementById('myAudio').play();  
+      document.getElementById('paperSound').play();  
+    }
+
+    function resetCard() {
+      document.getElementById('greetingCard').style.display = 'none';  
+      document.getElementById('envelopeContainer').style.display = 'block';  
+      document.getElementById('envelopeContainer').style.transform = 'rotateY(0deg)';
     }  
   </script>  
 
